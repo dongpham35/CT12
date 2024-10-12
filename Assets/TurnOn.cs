@@ -5,11 +5,11 @@ using UnityEngine;
 public class TurnOn : MonoBehaviour
 {
     [SerializeField] private Light _light;
-    private void OnEnable()
+
+    private void Start()
     {
         TurnOff_TurnOnLight.Instance.stateLight += OnSetIntensity;
     }
-
     private void OnDisable()
     {
         TurnOff_TurnOnLight.Instance.stateLight += OnSetIntensity;

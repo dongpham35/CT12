@@ -7,7 +7,10 @@ public class TurnOff_TurnOn : MonoBehaviour
     private bool _isChangeState = true;
     [SerializeField] private Light _sun;
     [SerializeField] private float _speed;
-
+    /// <summary>
+    /// 
+    /// </summary>
+    private bool _isTurnOnLight = false;
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.T) && _isChangeState)
@@ -20,11 +23,11 @@ public class TurnOff_TurnOn : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.U) && !_isChangeState)
         {
-            _speed += Time.deltaTime * 2f;
+            _speed += Time.deltaTime * 10f;
         }
         if(Input.GetKeyDown(KeyCode.R) && !_isChangeState)
         {
-            _speed = 3f;
+            _speed = 10f;
         }
     }
 
@@ -36,13 +39,16 @@ public class TurnOff_TurnOn : MonoBehaviour
         {
             from += Time.deltaTime * _speed;
             _sun.transform.Rotate(Vector3.right, Time.deltaTime * _speed);
-            if(from >= 180 && from <= 360)
+            if(from >= 180 && from <= 360 && !_isTurnOnLight)
             {
-                TurnOff_TurnOnLight.Instance.ActiveLight(1);
+                TurnOff_TurnOnLight.Instance.ActiveLight(2);
+                _isTurnOnLight = true;
             }
-            else
+            
+            if(from < 180 || from > 360 && _isTurnOnLight)
             {
                 TurnOff_TurnOnLight.Instance.ActiveLight(0);
+                _isTurnOnLight = false;
             }
             yield return new WaitForEndOfFrame();
         }
